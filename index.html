@@ -3,115 +3,287 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="theme-color" content="#101b24">
-<title>BlockWorld</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#101720">
+<title>BlockWorld V2</title>
 
 <style>
-* { box-sizing: border-box; }
+:root {
+  --bg: #101720;
+  --glass: rgba(19, 29, 40, .76);
+  --glass-light: rgba(255,255,255,.09);
+  --line: rgba(255,255,255,.16);
+  --white: #f4f8ff;
+  --muted: #a8b7c8;
+  --green: #79f2bc;
+  --blue: #86cfff;
+}
 
-body {
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
   margin: 0;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
-  background: #101b24;
-  color: white;
-  font-family: system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--white);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   touch-action: none;
+  overscroll-behavior: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
 }
 
 #game {
   position: fixed;
   inset: 0;
+  background: linear-gradient(#86c9ee, #c8e6f5);
 }
 
-canvas {
-  display: block;
+#game canvas {
   width: 100%;
   height: 100%;
+  display: block;
+  touch-action: none;
 }
 
-.top {
+.glass {
+  background: var(--glass);
+  border: 1px solid var(--line);
+  box-shadow: 0 10px 36px #0002, inset 0 1px #ffffff0c;
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* MENU D'ACCUEIL */
+
+#home {
   position: fixed;
-  top: 12px;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+  overflow-y: auto;
+  background:
+    radial-gradient(ellipse at 50% 22%, #60b88d3b, transparent 55%),
+    linear-gradient(145deg, #101720f5, #182a38ed);
+}
+
+.home-card {
+  width: min(100%, 390px);
+  text-align: center;
+  padding: 28px 22px;
+  border-radius: 28px;
+}
+
+.brand-icon {
+  width: 78px;
+  height: 78px;
+  margin: 0 auto 17px;
+  border-radius: 25px;
+  display: grid;
+  place-items: center;
+  font-size: 39px;
+  background: linear-gradient(145deg, #8af3bf, #278e72);
+  box-shadow: 0 10px 38px #58dfa23b;
+}
+
+.brand {
+  font-size: clamp(32px, 9vw, 44px);
+  font-weight: 950;
+  letter-spacing: -2px;
+  margin: 0;
+}
+
+.brand span {
+  color: var(--green);
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 9px 0 23px;
+  line-height: 1.6;
+}
+
+.world-preview {
+  height: 112px;
+  border-radius: 18px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  position: relative;
+  background:
+    radial-gradient(ellipse at 50% 100%, #539d61 0 18%, transparent 19%),
+    linear-gradient(180deg, #74b9e6, #c2e6ef);
+}
+
+.preview-blocks {
+  position: absolute;
+  left: 50%;
+  bottom: 13px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+  align-items: end;
+}
+
+.preview-blocks span {
+  width: 35px;
+  height: 35px;
+  border-radius: 4px;
+  border: 1px solid #ffffff35;
+  box-shadow: inset -6px -6px #0002, inset 4px 4px #ffffff16;
+}
+
+.preview-blocks span:nth-child(1) {
+  background: #59b84f;
+  transform: translateY(-12px);
+}
+.preview-blocks span:nth-child(2) { background: #927052; }
+.preview-blocks span:nth-child(3) {
+  background: #8c99a4;
+  transform: translateY(-8px);
+}
+.preview-blocks span:nth-child(4) { background: #4ca64e; }
+.preview-blocks span:nth-child(5) {
+  background: #3a8051;
+  transform: translateY(-15px);
+}
+
+.primary {
+  width: 100%;
+  border: 0;
+  border-radius: 15px;
+  padding: 16px;
+  color: #10251d;
+  font-weight: 850;
+  background: linear-gradient(110deg, #9af6c8, #61dca6);
+  box-shadow: 0 8px 26px #60e2a32b;
+}
+
+.secondary {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 13px;
+  background: var(--glass-light);
+  margin-top: 9px;
+  font-weight: 650;
+}
+
+.home-note {
+  font-size: 11px;
+  color: #8194a7;
+  margin-top: 17px;
+}
+
+/* INTERFACE DU JEU */
+
+#hud {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+#topbar {
+  position: absolute;
+  top: max(12px, env(safe-area-inset-top));
   left: 12px;
   right: 12px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  pointer-events: none;
+  justify-content: space-between;
+  gap: 8px;
 }
 
-.logo {
-  font-size: 21px;
-  font-weight: 900;
-  letter-spacing: -1px;
-  text-shadow: 0 2px 8px #000;
+.mini-brand {
+  font-size: 16px;
+  font-weight: 950;
+  letter-spacing: -.8px;
+  text-shadow: 0 2px 8px #0006;
 }
 
-.logo span { color: #66f0b0; }
+.mini-brand span {
+  color: var(--green);
+}
 
-.panel {
-  background: #101b24dd;
-  border: 1px solid #ffffff24;
-  border-radius: 14px;
-  padding: 9px 12px;
-  font-size: 12px;
+.pill {
+  border-radius: 13px;
+  padding: 9px 11px;
+  font-size: 11px;
+  font-weight: 750;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hud-button {
+  pointer-events: auto;
+  border-radius: 13px;
+  border: 1px solid var(--line);
+  background: var(--glass);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  padding: 10px 12px;
+}
+
+#status {
+  position: absolute;
+  top: 66px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  padding: 7px 12px;
+  border-radius: 20px;
+  font-size: 10px;
+  color: #e3f4ff;
+  background: #10202c7a;
+  text-align: center;
 }
 
 #crosshair {
-  position: fixed;
+  position: absolute;
+  left: 50%;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  font-size: 24px;
-  color: white;
-  text-shadow: 0 1px 4px black;
-  pointer-events: none;
+  transform: translate(-50%, -50%);
+  font-size: 25px;
+  font-weight: 300;
+  text-shadow: 0 1px 5px black;
 }
 
-#toolbar {
-  position: fixed;
-  bottom: 18px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 6px;
-  max-width: 96vw;
-}
-
-.slot {
-  width: 49px;
-  height: 52px;
-  border: 2px solid #ffffff55;
-  border-radius: 10px;
-  background: #101b24dd;
-  color: white;
-  font-size: 23px;
-  padding: 0;
-}
-
-.slot.active {
-  border: 2px solid #66f0b0;
-  background: #244c42ee;
-  transform: translateY(-5px);
-}
-
-#controls {
-  position: fixed;
-  left: 16px;
-  bottom: 92px;
+#movement {
+  position: absolute;
+  left: 13px;
+  bottom: calc(103px + env(safe-area-inset-bottom));
   display: grid;
-  grid-template-columns: 48px 48px 48px;
-  grid-template-rows: 48px 48px 48px;
+  grid-template-columns: 45px 45px 45px;
+  grid-template-rows: 45px 45px;
   gap: 5px;
+  pointer-events: auto;
 }
 
 .move {
-  border: 1px solid #ffffff40;
-  border-radius: 13px;
-  color: white;
-  background: #101b24cc;
-  font-size: 21px;
+  border: 1px solid #ffffff30;
+  border-radius: 14px;
+  background: #101c2bc4;
+  backdrop-filter: blur(12px);
+  font-size: 18px;
   touch-action: none;
 }
 
@@ -120,51 +292,200 @@ canvas {
 #back { grid-column: 2; grid-row: 2; }
 #right { grid-column: 3; grid-row: 2; }
 
-#actions {
-  position: fixed;
-  right: 14px;
-  bottom: 100px;
+#action-buttons {
+  position: absolute;
+  right: 12px;
+  bottom: calc(112px + env(safe-area-inset-bottom));
   display: flex;
   flex-direction: column;
-  gap: 9px;
+  gap: 8px;
+  pointer-events: auto;
 }
 
 .action {
-  border: 1px solid #ffffff44;
+  min-width: 95px;
+  border: 1px solid #ffffff2b;
   border-radius: 13px;
-  padding: 13px 12px;
-  color: white;
-  background: #101b24dd;
-  font-weight: 700;
-  font-size: 12px;
+  background: #101c2bd9;
+  padding: 12px 10px;
+  font-size: 11px;
+  font-weight: 800;
+  text-align: center;
 }
 
 .action.active {
-  border-color: #66f0b0;
-  color: #66f0b0;
+  border-color: var(--green);
+  color: var(--green);
+  background: #183b35e8;
 }
 
-#hint {
-  position: fixed;
-  top: 62px;
+#hotbar {
+  position: absolute;
+  bottom: max(13px, env(safe-area-inset-bottom));
   left: 50%;
   transform: translateX(-50%);
-  width: max-content;
-  max-width: 90vw;
-  text-align: center;
-  color: white;
-  background: #101b24bb;
-  padding: 7px 11px;
-  border-radius: 10px;
-  font-size: 11px;
-  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  max-width: 98vw;
+  padding: 7px;
+  border-radius: 18px;
+  pointer-events: auto;
 }
 
-@media (max-height: 450px) {
-  #controls { bottom: 65px; }
-  #actions { bottom: 70px; }
-  #toolbar { bottom: 5px; }
-  .slot { height: 42px; }
+.slot {
+  position: relative;
+  width: clamp(43px, 11vw, 52px);
+  height: 52px;
+  border: 1px solid #ffffff23;
+  border-radius: 11px;
+  background: #ffffff0b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2px;
+  padding: 2px;
+}
+
+.slot.selected {
+  background: #7cf0b92b;
+  border: 2px solid var(--green);
+  transform: translateY(-3px);
+}
+
+.block-icon {
+  width: 24px;
+  height: 24px;
+  border: 1px solid #ffffff3b;
+  border-radius: 5px;
+  box-shadow: inset -4px -4px #0002, inset 2px 2px #ffffff18;
+}
+
+.block-label {
+  font-size: 8px;
+  color: #e5edf4;
+}
+
+#inventory-button {
+  width: 45px;
+  height: 52px;
+  flex-shrink: 0;
+  border: 1px solid #ffffff30;
+  border-radius: 12px;
+  background: #ffffff10;
+  font-size: 19px;
+}
+
+/* INVENTAIRE */
+
+#inventory {
+  position: fixed;
+  z-index: 12;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: #07111b9c;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.inventory-card {
+  width: min(100%, 390px);
+  max-height: 85dvh;
+  overflow-y: auto;
+  padding: 20px;
+  border-radius: 24px;
+}
+
+.inventory-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.inventory-head h2 {
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: -.7px;
+}
+
+.close {
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  border: 1px solid var(--line);
+  background: var(--glass-light);
+  font-size: 20px;
+}
+
+.inventory-subtitle {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 7px 0 19px;
+}
+
+#block-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.block-card {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #ffffff08;
+  padding: 12px 5px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 11px;
+}
+
+.block-card.chosen {
+  border-color: var(--green);
+  background: #66e6a91b;
+}
+
+.block-swatch {
+  width: 34px;
+  height: 34px;
+  border: 1px solid #ffffff30;
+  border-radius: 7px;
+  box-shadow: inset -6px -6px #0002, inset 3px 3px #ffffff18;
+}
+
+.unlimited {
+  color: var(--green);
+  font-size: 10px;
+}
+
+.inventory-use {
+  margin-top: 17px;
+}
+
+/* PETITS ÉCRANS */
+
+@media (max-height: 500px) {
+  .home-card { padding: 16px; }
+  .brand-icon { width: 54px; height: 54px; font-size: 28px; margin-bottom: 8px; }
+  .world-preview { height: 65px; margin-bottom: 10px; }
+  .subtitle { margin: 5px 0 12px; }
+  #movement { bottom: 70px; }
+  #action-buttons { bottom: 75px; }
+  #hotbar { bottom: 4px; }
+  .slot { height: 44px; }
+}
+
+@media (min-width: 700px) {
+  #movement { left: 24px; }
+  #action-buttons { right: 24px; }
 }
 </style>
 </head>
@@ -172,35 +493,83 @@ canvas {
 <body>
 <div id="game"></div>
 
-<div class="top">
-  <div class="logo">BLOCK<span>WORLD</span></div>
-  <div class="panel">MODE CRÉATIF<br>🌎 Monde libre</div>
+<!-- ACCUEIL -->
+<section id="home">
+  <div class="home-card glass">
+    <div class="brand-icon">🧊</div>
+    <h1 class="brand">BLOCK<span>WORLD</span></h1>
+    <p class="subtitle">
+      TON MONDE. TES RÈGLES.<br>
+      Un univers de blocs à construire.
+    </p>
+
+    <div class="world-preview">
+      <div class="preview-blocks">
+        <span></span><span></span><span></span>
+        <span></span><span></span>
+      </div>
+    </div>
+
+    <button id="play" class="primary">▶ &nbsp; JOUER</button>
+    <button id="home-inventory" class="secondary">
+      ▦ &nbsp; EXPLORER LES BLOCS
+    </button>
+
+    <p class="home-note">
+      V2 · MODE CRÉATIF · ÉDITION MOBILE
+    </p>
+  </div>
+</section>
+
+<!-- INTERFACE DU JEU -->
+<div id="hud" class="hidden">
+  <div id="topbar">
+    <div class="mini-brand">BLOCK<span>WORLD</span></div>
+    <div class="pill glass">🌿 <span>CRÉATIF</span></div>
+    <button id="pause" class="hud-button">Ⅱ</button>
+  </div>
+
+  <div id="status" class="glass">Monde créatif · Ressources illimitées</div>
+  <div id="crosshair">+</div>
+
+  <div id="movement">
+    <button class="move" id="forward">▲</button>
+    <button class="move" id="left">◀</button>
+    <button class="move" id="back">▼</button>
+    <button class="move" id="right">▶</button>
+  </div>
+
+  <div id="action-buttons">
+    <button id="break" class="action active">⛏ CASSER</button>
+    <button id="place" class="action">▧ POSER</button>
+    <button id="up" class="action">⬆ MONTER</button>
+    <button id="down" class="action">⬇ DESCENDRE</button>
+  </div>
+
+  <div id="hotbar" class="glass">
+    <div id="hotbar-slots" style="display:flex;gap:5px"></div>
+    <button id="inventory-button" aria-label="Ouvrir l'inventaire">▦</button>
+  </div>
 </div>
 
-<div id="hint">Glisse pour regarder · Touche un bloc pour agir</div>
-<div id="crosshair">+</div>
+<!-- INVENTAIRE -->
+<section id="inventory" class="hidden">
+  <div class="inventory-card glass">
+    <div class="inventory-head">
+      <h2>Inventaire</h2>
+      <button id="close-inventory" class="close">×</button>
+    </div>
+    <p class="inventory-subtitle">
+      Choisis un matériau pour construire ton monde.
+    </p>
 
-<div id="controls">
-  <button class="move" id="forward">▲</button>
-  <button class="move" id="left">◀</button>
-  <button class="move" id="back">▼</button>
-  <button class="move" id="right">▶</button>
-</div>
+    <div id="block-grid"></div>
 
-<div id="actions">
-  <button class="action active" id="breakBtn">⛏ CASSER</button>
-  <button class="action" id="placeBtn">▧ POSER</button>
-  <button class="action" id="upBtn">⬆ MONTER</button>
-  <button class="action" id="downBtn">⬇ DESCENDRE</button>
-</div>
-
-<div id="toolbar">
-  <button class="slot active" data-type="grass">🌿</button>
-  <button class="slot" data-type="dirt">🟫</button>
-  <button class="slot" data-type="stone">🪨</button>
-  <button class="slot" data-type="wood">🪵</button>
-  <button class="slot" data-type="leaves">🍃</button>
-</div>
+    <div class="inventory-use">
+      <button id="use-block" class="primary">SÉLECTIONNER CE BLOC</button>
+    </div>
+  </div>
+</section>
 
 <script type="importmap">
 {
@@ -213,117 +582,158 @@ canvas {
 <script type="module">
 import * as THREE from "three";
 
-const root = document.getElementById("game");
+/* CONFIGURATION */
+
+const $ = id => document.getElementById(id);
+const root = $("game");
+
+const blockInfo = {
+  grass:  { label: "Herbe", color: "#62b94e" },
+  dirt:   { label: "Terre", color: "#95603c" },
+  stone:  { label: "Pierre", color: "#89949f" },
+  wood:   { label: "Bois", color: "#a97642" },
+  leaves: { label: "Feuilles", color: "#34874a" },
+  sand:   { label: "Sable", color: "#e4cf88" },
+  brick:  { label: "Briques", color: "#b65f52" },
+  glass:  { label: "Verre", color: "#a8e6f3" },
+  gold:   { label: "Or", color: "#f4c84e" }
+};
+
+const blockTypes = Object.keys(blockInfo);
+let selected = "grass";
+let mode = "break";
+let started = false;
+
+/* MOTEUR 3D */
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color("#87cbed");
-scene.fog = new THREE.Fog("#87cbed", 20, 55);
+scene.background = new THREE.Color("#92d1ef");
+scene.fog = new THREE.Fog("#92d1ef", 26, 75);
 
 const camera = new THREE.PerspectiveCamera(
-  75, innerWidth / innerHeight, 0.1, 1000
+  72, innerWidth / innerHeight, 0.1, 300
 );
-
-camera.position.set(0, 2.4, 7);
+camera.position.set(0, 3, 7);
 
 const renderer = new THREE.WebGLRenderer({
   antialias: false,
   powerPreference: "high-performance"
 });
-
 renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
 renderer.setSize(innerWidth, innerHeight);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 root.appendChild(renderer.domElement);
 
-scene.add(new THREE.HemisphereLight(0xffffff, 0x53634b, 2));
+scene.add(new THREE.HemisphereLight(0xffffff, 0x60734d, 2));
 
-const sun = new THREE.DirectionalLight(0xffffff, 2);
-sun.position.set(10, 20, 8);
-scene.add(sun);
+const sunlight = new THREE.DirectionalLight(0xffffff, 2);
+sunlight.position.set(12, 24, 8);
+scene.add(sunlight);
 
-const geometry = new THREE.BoxGeometry(1, 1, 1);
-const materials = {
-  grass: new THREE.MeshLambertMaterial({ color: 0x60b64c }),
-  dirt: new THREE.MeshLambertMaterial({ color: 0x98623e }),
-  stone: new THREE.MeshLambertMaterial({ color: 0x8b9299 }),
-  wood: new THREE.MeshLambertMaterial({ color: 0x956337 }),
-  leaves: new THREE.MeshLambertMaterial({
-    color: 0x278746,
-    transparent: true,
-    opacity: 0.95
-  })
-};
+const cube = new THREE.BoxGeometry(1, 1, 1);
+const materials = {};
+
+for (const type of blockTypes) {
+  materials[type] = new THREE.MeshLambertMaterial({
+    color: blockInfo[type].color
+  });
+}
+
+materials.glass = new THREE.MeshLambertMaterial({
+  color: blockInfo.glass.color,
+  transparent: true,
+  opacity: 0.48,
+  depthWrite: false
+});
 
 const blocks = new Map();
-const raycaster = new THREE.Raycaster();
-const center = new THREE.Vector2(0, 0);
-
-let selected = "grass";
-let mode = "break";
-let yaw = 0;
-let pitch = -0.15;
-
-const key = (x, y, z) => `${x},${y},${z}`;
+const blockKey = (x, y, z) => `${x},${y},${z}`;
 
 function addBlock(x, y, z, type = "grass") {
-  const id = key(x, y, z);
-  if (blocks.has(id)) return;
+  const id = blockKey(x, y, z);
+  if (blocks.has(id)) return false;
 
-  const mesh = new THREE.Mesh(geometry, materials[type]);
+  const mesh = new THREE.Mesh(cube, materials[type] || materials.grass);
   mesh.position.set(x, y, z);
   mesh.userData = { x, y, z, type };
 
   scene.add(mesh);
   blocks.set(id, mesh);
+  return true;
 }
 
 function removeBlock(mesh) {
   const { x, y, z } = mesh.userData;
   scene.remove(mesh);
-  blocks.delete(key(x, y, z));
+  blocks.delete(blockKey(x, y, z));
 }
 
-// Terrain de départ
-for (let x = -9; x <= 9; x++) {
-  for (let z = -9; z <= 9; z++) {
-    const hill = Math.sin(x * 0.45) * Math.cos(z * 0.35);
-    const height = Math.round(hill * 1.5);
+/* MONDE DE DÉPART */
 
-    for (let y = -2; y <= height; y++) {
-      addBlock(
-        x, y, z,
-        y === height ? "grass" :
-        y >= height - 1 ? "dirt" : "stone"
-      );
-    }
-  }
-}
-
-// Quelques arbres
-function tree(x, z) {
-  const ground = Math.round(
-    Math.sin(x * 0.45) * Math.cos(z * 0.35) * 1.5
+function terrainHeight(x, z) {
+  return Math.round(
+    Math.sin(x * 0.36) * 1.25 +
+    Math.cos(z * 0.31) * 0.9 +
+    Math.sin((x + z) * 0.18) * 0.6
   );
+}
+
+function makeTree(x, z) {
+  const h = terrainHeight(x, z);
 
   for (let y = 1; y <= 3; y++) {
-    addBlock(x, ground + y, z, "wood");
+    addBlock(x, h + y, z, "wood");
   }
 
-  for (let dx = -1; dx <= 1; dx++) {
-    for (let dz = -1; dz <= 1; dz++) {
+  for (let dx = -2; dx <= 2; dx++) {
+    for (let dz = -2; dz <= 2; dz++) {
       for (let dy = 2; dy <= 4; dy++) {
-        if (Math.abs(dx) + Math.abs(dz) < 3) {
-          addBlock(x + dx, ground + dy, z + dz, "leaves");
+        if (Math.abs(dx) + Math.abs(dz) <= 3) {
+          addBlock(x + dx, h + dy, z + dz, "leaves");
         }
       }
     }
   }
 }
 
-tree(-5, -3);
-tree(5, -4);
-tree(4, 5);
-tree(-6, 5);
+function generateWorld() {
+  if (blocks.size) return;
+
+  for (let x = -12; x <= 12; x++) {
+    for (let z = -12; z <= 12; z++) {
+      const h = terrainHeight(x, z);
+
+      for (let y = -2; y <= h; y++) {
+        let type = "stone";
+
+        if (y === h) type = "grass";
+        else if (y >= h - 1) type = "dirt";
+
+        addBlock(x, y, z, type);
+      }
+    }
+  }
+
+  makeTree(-6, -4);
+  makeTree(6, -5);
+  makeTree(5, 6);
+  makeTree(-7, 6);
+
+  for (let x = -2; x <= 2; x++) {
+    for (let z = -2; z <= 2; z++) {
+      if (Math.abs(x) === 2 || Math.abs(z) === 2) {
+        addBlock(x, 3, z, "brick");
+      }
+    }
+  }
+}
+
+generateWorld();
+
+/* CAMERA ET COMMANDES */
+
+let yaw = 0;
+let pitch = -0.15;
 
 function updateCamera() {
   camera.rotation.order = "YXZ";
@@ -333,94 +743,6 @@ function updateCamera() {
 
 updateCamera();
 
-// Sélection du bloc
-document.querySelectorAll(".slot").forEach(button => {
-  button.addEventListener("click", () => {
-    selected = button.dataset.type;
-
-    document.querySelectorAll(".slot").forEach(b =>
-      b.classList.toggle("active", b === button)
-    );
-  });
-});
-
-document.getElementById("breakBtn").onclick = () => {
-  mode = "break";
-  updateModeButtons();
-};
-
-document.getElementById("placeBtn").onclick = () => {
-  mode = "place";
-  updateModeButtons();
-};
-
-function updateModeButtons() {
-  document.getElementById("breakBtn")
-    .classList.toggle("active", mode === "break");
-  document.getElementById("placeBtn")
-    .classList.toggle("active", mode === "place");
-}
-
-let vertical = 0;
-
-document.getElementById("upBtn").addEventListener("pointerdown", e => {
-  e.preventDefault();
-  vertical = 1;
-});
-
-document.getElementById("downBtn").addEventListener("pointerdown", e => {
-  e.preventDefault();
-  vertical = -1;
-});
-
-function stopVertical() {
-  vertical = 0;
-}
-
-window.addEventListener("pointerup", stopVertical);
-window.addEventListener("pointercancel", stopVertical);
-
-// Casser ou poser un bloc devant le viseur
-function interact() {
-  raycaster.setFromCamera(center, camera);
-
-  const hits = raycaster.intersectObjects(
-    Array.from(blocks.values()), false
-  );
-
-  if (!hits.length || hits[0].distance > 7) return;
-
-  const hit = hits[0];
-  const mesh = hit.object;
-
-  if (mode === "break") {
-    removeBlock(mesh);
-    return;
-  }
-
-  if (!hit.face) return;
-
-  const normal = hit.face.normal.clone()
-    .transformDirection(mesh.matrixWorld);
-
-  const p = mesh.position.clone().add(normal);
-  const x = Math.round(p.x);
-  const y = Math.round(p.y);
-  const z = Math.round(p.z);
-
-  // Évite de poser un bloc directement dans le joueur
-  const dx = x - camera.position.x;
-  const dy = y - camera.position.y;
-  const dz = z - camera.position.z;
-
-  if (Math.abs(dx) < 0.8 &&
-      Math.abs(dz) < 0.8 &&
-      Math.abs(dy) < 1.8) return;
-
-  addBlock(x, y, z, selected);
-}
-
-// Déplacement tactile
 const moving = {
   forward: false,
   back: false,
@@ -429,33 +751,135 @@ const moving = {
 };
 
 for (const name of Object.keys(moving)) {
-  const button = document.getElementById(name);
+  const button = $(name);
 
   button.addEventListener("pointerdown", e => {
     e.preventDefault();
     moving[name] = true;
-    button.setPointerCapture(e.pointerId);
+
+    try {
+      button.setPointerCapture(e.pointerId);
+    } catch {}
   });
 
-  for (const event of ["pointerup", "pointercancel", "lostpointercapture"]) {
-    button.addEventListener(event, () => moving[name] = false);
+  for (const event of [
+    "pointerup", "pointercancel", "lostpointercapture"
+  ]) {
+    button.addEventListener(event, () => {
+      moving[name] = false;
+    });
   }
 }
 
-// Glisser pour regarder, toucher pour interagir
+let vertical = 0;
+
+function setVertical(value) {
+  vertical = value;
+}
+
+for (const [id, value] of [["up", 1], ["down", -1]]) {
+  const button = $(id);
+
+  button.addEventListener("pointerdown", e => {
+    e.preventDefault();
+    setVertical(value);
+
+    try {
+      button.setPointerCapture(e.pointerId);
+    } catch {}
+  });
+
+  for (const event of [
+    "pointerup", "pointercancel", "lostpointercapture"
+  ]) {
+    button.addEventListener(event, () => setVertical(0));
+  }
+}
+
+/* ACTIONS SUR LES BLOCS */
+
+const raycaster = new THREE.Raycaster();
+const center = new THREE.Vector2(0, 0);
+
+function interact() {
+  raycaster.setFromCamera(center, camera);
+
+  const hits = raycaster.intersectObjects(
+    Array.from(blocks.values()), false
+  );
+
+  if (!hits.length || hits[0].distance > 8) {
+    $("status").textContent = "Vise un bloc à proximité";
+    return;
+  }
+
+  const hit = hits[0];
+  const mesh = hit.object;
+
+  if (mode === "break") {
+    removeBlock(mesh);
+    $("status").textContent = "Bloc cassé · Mode créatif";
+    return;
+  }
+
+  if (!hit.face) return;
+
+  const normal = hit.face.normal.clone()
+    .transformDirection(mesh.matrixWorld);
+
+  const position = mesh.position.clone().add(normal);
+  const x = Math.round(position.x);
+  const y = Math.round(position.y);
+  const z = Math.round(position.z);
+
+  const dx = x - camera.position.x;
+  const dy = y - camera.position.y;
+  const dz = z - camera.position.z;
+
+  if (
+    Math.abs(dx) < 0.8 &&
+    Math.abs(dz) < 0.8 &&
+    Math.abs(dy) < 1.8
+  ) {
+    $("status").textContent = "Impossible de poser ici";
+    return;
+  }
+
+  if (addBlock(x, y, z, selected)) {
+    $("status").textContent =
+      blockInfo[selected].label + " posé";
+  }
+}
+
+$("break").addEventListener("click", () => setMode("break"));
+$("place").addEventListener("click", () => setMode("place"));
+
+function setMode(value) {
+  mode = value;
+  $("break").classList.toggle("active", mode === "break");
+  $("place").classList.toggle("active", mode === "place");
+}
+
+/* REGARD TACTILE */
+
 let dragging = false;
 let moved = false;
-let lastX = 0;
-let lastY = 0;
 let startX = 0;
 let startY = 0;
+let lastX = 0;
+let lastY = 0;
 
 renderer.domElement.addEventListener("pointerdown", e => {
+  if (!started) return;
+
   dragging = true;
   moved = false;
-  lastX = startX = e.clientX;
-  lastY = startY = e.clientY;
-  renderer.domElement.setPointerCapture(e.pointerId);
+  startX = lastX = e.clientX;
+  startY = lastY = e.clientY;
+
+  try {
+    renderer.domElement.setPointerCapture(e.pointerId);
+  } catch {}
 });
 
 renderer.domElement.addEventListener("pointermove", e => {
@@ -464,13 +888,15 @@ renderer.domElement.addEventListener("pointermove", e => {
   const dx = e.clientX - lastX;
   const dy = e.clientY - lastY;
 
-  if (Math.hypot(e.clientX - startX, e.clientY - startY) > 7) {
-    moved = true;
-  }
+  if (Math.hypot(
+    e.clientX - startX,
+    e.clientY - startY
+  ) > 7) moved = true;
 
   yaw -= dx * 0.006;
-  pitch -= dy * 0.006;
-  pitch = Math.max(-1.45, Math.min(1.45, pitch));
+  pitch = THREE.MathUtils.clamp(
+    pitch - dy * 0.006, -1.45, 1.45
+  );
 
   lastX = e.clientX;
   lastY = e.clientY;
@@ -478,7 +904,7 @@ renderer.domElement.addEventListener("pointermove", e => {
 });
 
 renderer.domElement.addEventListener("pointerup", () => {
-  if (dragging && !moved) interact();
+  if (dragging && !moved && started) interact();
   dragging = false;
 });
 
@@ -486,7 +912,118 @@ renderer.domElement.addEventListener("pointercancel", () => {
   dragging = false;
 });
 
-// Boucle du jeu
+/* INVENTAIRE ET BARRE RAPIDE */
+
+const hotbarTypes = [
+  "grass", "dirt", "stone", "wood", "leaves"
+];
+
+function makeSwatch(type) {
+  const swatch = document.createElement("span");
+  swatch.className = "block-swatch";
+  swatch.style.background = blockInfo[type].color;
+  return swatch;
+}
+
+function selectBlock(type) {
+  selected = type;
+  renderHotbar();
+  renderInventory();
+}
+
+function renderHotbar() {
+  const container = $("hotbar-slots");
+  container.replaceChildren();
+
+  hotbarTypes.forEach(type => {
+    const button = document.createElement("button");
+    button.className = "slot" +
+      (selected === type ? " selected" : "");
+    button.setAttribute("aria-label", blockInfo[type].label);
+
+    button.appendChild(makeSwatch(type));
+
+    const label = document.createElement("span");
+    label.className = "block-label";
+    label.textContent = blockInfo[type].label;
+    button.appendChild(label);
+
+    button.addEventListener("click", () => selectBlock(type));
+    container.appendChild(button);
+  });
+}
+
+function renderInventory() {
+  const grid = $("block-grid");
+  grid.replaceChildren();
+
+  blockTypes.forEach(type => {
+    const button = document.createElement("button");
+    button.className = "block-card" +
+      (selected === type ? " chosen" : "");
+
+    button.appendChild(makeSwatch(type));
+
+    const name = document.createElement("span");
+    name.textContent = blockInfo[type].label;
+    button.appendChild(name);
+
+    const unlimited = document.createElement("span");
+    unlimited.className = "unlimited";
+    unlimited.textContent = "∞ Illimité";
+    button.appendChild(unlimited);
+
+    button.addEventListener("click", () => selectBlock(type));
+    grid.appendChild(button);
+  });
+}
+
+function openInventory() {
+  $("inventory").classList.remove("hidden");
+  renderInventory();
+}
+
+function closeInventory() {
+  $("inventory").classList.add("hidden");
+}
+
+$("inventory-button").addEventListener("click", openInventory);
+$("home-inventory").addEventListener("click", openInventory);
+$("close-inventory").addEventListener("click", closeInventory);
+
+$("use-block").addEventListener("click", () => {
+  closeInventory();
+  if (!started) startGame();
+});
+
+renderHotbar();
+renderInventory();
+
+/* MENU ET PAUSE */
+
+function startGame() {
+  started = true;
+  $("home").classList.add("hidden");
+  $("inventory").classList.add("hidden");
+  $("hud").classList.remove("hidden");
+  $("status").textContent = "Bienvenue dans ton monde !";
+}
+
+function showHome() {
+  started = false;
+  $("hud").classList.add("hidden");
+  $("inventory").classList.add("hidden");
+  $("home").classList.remove("hidden");
+
+  for (const name of Object.keys(moving)) moving[name] = false;
+  vertical = 0;
+}
+
+$("play").addEventListener("click", startGame);
+$("pause").addEventListener("click", showHome);
+
+/* BOUCLE DE RENDU */
+
 let previous = performance.now();
 
 function animate(now) {
@@ -495,26 +1032,34 @@ function animate(now) {
   const delta = Math.min((now - previous) / 1000, 0.05);
   previous = now;
 
-  const speed = 5 * delta;
+  if (started) {
+    const speed = 5 * delta;
 
-  const forward = new THREE.Vector3(
-    -Math.sin(yaw), 0, -Math.cos(yaw)
-  );
+    const forward = new THREE.Vector3(
+      -Math.sin(yaw), 0, -Math.cos(yaw)
+    );
 
-  const right = new THREE.Vector3(
-    Math.cos(yaw), 0, -Math.sin(yaw)
-  );
+    const right = new THREE.Vector3(
+      Math.cos(yaw), 0, -Math.sin(yaw)
+    );
 
-  if (moving.forward) camera.position.addScaledVector(forward, speed);
-  if (moving.back) camera.position.addScaledVector(forward, -speed);
-  if (moving.right) camera.position.addScaledVector(right, speed);
-  if (moving.left) camera.position.addScaledVector(right, -speed);
+    if (moving.forward) camera.position.addScaledVector(forward, speed);
+    if (moving.back) camera.position.addScaledVector(forward, -speed);
+    if (moving.left) camera.position.addScaledVector(right, -speed);
+    if (moving.right) camera.position.addScaledVector(right, speed);
 
-  camera.position.y += vertical * speed;
+    camera.position.y += vertical * speed;
 
-  camera.position.x = THREE.MathUtils.clamp(camera.position.x, -30, 30);
-  camera.position.z = THREE.MathUtils.clamp(camera.position.z, -30, 30);
-  camera.position.y = THREE.MathUtils.clamp(camera.position.y, -1, 25);
+    camera.position.x = THREE.MathUtils.clamp(
+      camera.position.x, -30, 30
+    );
+    camera.position.z = THREE.MathUtils.clamp(
+      camera.position.z, -30, 30
+    );
+    camera.position.y = THREE.MathUtils.clamp(
+      camera.position.y, -1, 25
+    );
+  }
 
   renderer.render(scene, camera);
 }
@@ -526,7 +1071,6 @@ window.addEventListener("resize", () => {
   camera.updateProjectionMatrix();
   renderer.setSize(innerWidth, innerHeight);
 });
-
 </script>
 </body>
 </html>
