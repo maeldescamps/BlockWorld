@@ -4,205 +4,61 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#101720">
-<title>BlockWorld V2</title>
+<meta name="theme-color" content="#101820">
+<title>BlockWorld — Liquid Glass</title>
 
 <style>
 :root {
-  --bg: #101720;
-  --glass: rgba(19, 29, 40, .76);
-  --glass-light: rgba(255,255,255,.09);
-  --line: rgba(255,255,255,.16);
-  --white: #f4f8ff;
-  --muted: #a8b7c8;
-  --green: #79f2bc;
-  --blue: #86cfff;
+  --glass: rgba(255,255,255,.12);
+  --line: rgba(255,255,255,.22);
+  --text: #f7fbff;
+  --accent: #8df5ce;
 }
-
 * {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
 }
-
-html, body {
+body {
   margin: 0;
-  width: 100%;
-  height: 100%;
   overflow: hidden;
-  background: var(--bg);
-  color: var(--white);
+  background: #101820;
+  color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   touch-action: none;
-  overscroll-behavior: none;
+  user-select: none;
 }
-
 button {
+  color: white;
   font: inherit;
-  color: inherit;
   cursor: pointer;
-  touch-action: manipulation;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.12);
+  border-radius: 15px;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 }
-
+button:active { transform: scale(.96); }
 #game {
   position: fixed;
   inset: 0;
-  background: linear-gradient(#86c9ee, #c8e6f5);
 }
-
-#game canvas {
+canvas {
   width: 100%;
   height: 100%;
   display: block;
-  touch-action: none;
 }
+.hidden { display: none !important; }
 
 .glass {
-  background: var(--glass);
+  background: rgba(17,28,39,.66);
   border: 1px solid var(--line);
-  box-shadow: 0 10px 36px #0002, inset 0 1px #ffffff0c;
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
+  box-shadow: 0 12px 45px rgba(0,0,0,.22);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 22px;
 }
-
-.hidden {
-  display: none !important;
-}
-
-/* MENU D'ACCUEIL */
-
-#home {
-  position: fixed;
-  inset: 0;
-  z-index: 20;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 22px;
-  overflow-y: auto;
-  background:
-    radial-gradient(ellipse at 50% 22%, #60b88d3b, transparent 55%),
-    linear-gradient(145deg, #101720f5, #182a38ed);
-}
-
-.home-card {
-  width: min(100%, 390px);
-  text-align: center;
-  padding: 28px 22px;
-  border-radius: 28px;
-}
-
-.brand-icon {
-  width: 78px;
-  height: 78px;
-  margin: 0 auto 17px;
-  border-radius: 25px;
-  display: grid;
-  place-items: center;
-  font-size: 39px;
-  background: linear-gradient(145deg, #8af3bf, #278e72);
-  box-shadow: 0 10px 38px #58dfa23b;
-}
-
-.brand {
-  font-size: clamp(32px, 9vw, 44px);
-  font-weight: 950;
-  letter-spacing: -2px;
-  margin: 0;
-}
-
-.brand span {
-  color: var(--green);
-}
-
-.subtitle {
-  color: var(--muted);
-  font-size: 13px;
-  margin: 9px 0 23px;
-  line-height: 1.6;
-}
-
-.world-preview {
-  height: 112px;
-  border-radius: 18px;
-  overflow: hidden;
-  margin-bottom: 20px;
-  position: relative;
-  background:
-    radial-gradient(ellipse at 50% 100%, #539d61 0 18%, transparent 19%),
-    linear-gradient(180deg, #74b9e6, #c2e6ef);
-}
-
-.preview-blocks {
-  position: absolute;
-  left: 50%;
-  bottom: 13px;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 5px;
-  align-items: end;
-}
-
-.preview-blocks span {
-  width: 35px;
-  height: 35px;
-  border-radius: 4px;
-  border: 1px solid #ffffff35;
-  box-shadow: inset -6px -6px #0002, inset 4px 4px #ffffff16;
-}
-
-.preview-blocks span:nth-child(1) {
-  background: #59b84f;
-  transform: translateY(-12px);
-}
-.preview-blocks span:nth-child(2) { background: #927052; }
-.preview-blocks span:nth-child(3) {
-  background: #8c99a4;
-  transform: translateY(-8px);
-}
-.preview-blocks span:nth-child(4) { background: #4ca64e; }
-.preview-blocks span:nth-child(5) {
-  background: #3a8051;
-  transform: translateY(-15px);
-}
-
-.primary {
-  width: 100%;
-  border: 0;
-  border-radius: 15px;
-  padding: 16px;
-  color: #10251d;
-  font-weight: 850;
-  background: linear-gradient(110deg, #9af6c8, #61dca6);
-  box-shadow: 0 8px 26px #60e2a32b;
-}
-
-.secondary {
-  width: 100%;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 13px;
-  background: var(--glass-light);
-  margin-top: 9px;
-  font-weight: 650;
-}
-
-.home-note {
-  font-size: 11px;
-  color: #8194a7;
-  margin-top: 17px;
-}
-
-/* INTERFACE DU JEU */
-
-#hud {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 5;
-}
-
 #topbar {
-  position: absolute;
+  position: fixed;
   top: max(12px, env(safe-area-inset-top));
   left: 12px;
   right: 12px;
@@ -210,282 +66,243 @@ button {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-}
-
-.mini-brand {
-  font-size: 16px;
-  font-weight: 950;
-  letter-spacing: -.8px;
-  text-shadow: 0 2px 8px #0006;
-}
-
-.mini-brand span {
-  color: var(--green);
-}
-
-.pill {
-  border-radius: 13px;
-  padding: 9px 11px;
-  font-size: 11px;
-  font-weight: 750;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.hud-button {
-  pointer-events: auto;
-  border-radius: 13px;
-  border: 1px solid var(--line);
-  background: var(--glass);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
   padding: 10px 12px;
+  pointer-events: none;
 }
-
+#topbar > * { pointer-events: auto; }
+.brand {
+  font-weight: 850;
+  letter-spacing: -.7px;
+  font-size: 17px;
+}
+.brand span { color: var(--accent); }
+.pill {
+  padding: 7px 10px;
+  font-size: 11px;
+  color: #d9fff1;
+  background: rgba(91,237,181,.12);
+  border: 1px solid rgba(141,245,206,.25);
+  border-radius: 20px;
+}
+#pauseBtn {
+  padding: 9px 12px;
+  font-size: 17px;
+}
 #status {
-  position: absolute;
-  top: 66px;
+  position: fixed;
+  top: 82px;
   left: 50%;
   transform: translateX(-50%);
+  padding: 8px 13px;
+  font-size: 12px;
   white-space: nowrap;
-  padding: 7px 12px;
-  border-radius: 20px;
-  font-size: 10px;
-  color: #e3f4ff;
-  background: #10202c7a;
-  text-align: center;
+  background: rgba(0,0,0,.38);
+  border-radius: 30px;
+  pointer-events: none;
 }
-
 #crosshair {
-  position: absolute;
+  position: fixed;
   left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 25px;
-  font-weight: 300;
-  text-shadow: 0 1px 5px black;
+  top: 48%;
+  width: 17px;
+  height: 17px;
+  transform: translate(-50%,-50%);
+  pointer-events: none;
 }
-
-#movement {
+#crosshair:before, #crosshair:after {
+  content: "";
   position: absolute;
-  left: 13px;
-  bottom: calc(103px + env(safe-area-inset-bottom));
-  display: grid;
-  grid-template-columns: 45px 45px 45px;
-  grid-template-rows: 45px 45px;
+  background: white;
+  border-radius: 3px;
+  box-shadow: 0 1px 4px #000;
+}
+#crosshair:before { width: 2px; height: 17px; left: 7px; }
+#crosshair:after { height: 2px; width: 17px; top: 7px; }
+
+#hotbar {
+  position: fixed;
+  bottom: max(15px, env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
   gap: 5px;
-  pointer-events: auto;
+  padding: 7px;
+  max-width: calc(100vw - 18px);
+  background: rgba(14,24,34,.68);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+}
+.slot {
+  width: clamp(43px, 11vw, 53px);
+  height: 52px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+  padding: 3px;
+  border-color: transparent;
+}
+.slot .emoji { font-size: 23px; }
+.slot small { font-size: 8px; color: #d7e4ec; }
+.slot.selected {
+  border: 2px solid var(--accent);
+  background: rgba(141,245,206,.2);
+  box-shadow: 0 0 15px rgba(141,245,206,.14);
+}
+#inventoryBtn {
+  width: 47px;
+  height: 52px;
+  font-size: 22px;
+  flex-shrink: 0;
 }
 
+#controls {
+  position: fixed;
+  left: 15px;
+  bottom: 100px;
+  display: grid;
+  grid-template-columns: 48px 48px 48px;
+  grid-template-rows: 48px 48px;
+  gap: 5px;
+}
 .move {
-  border: 1px solid #ffffff30;
-  border-radius: 14px;
-  background: #101c2bc4;
-  backdrop-filter: blur(12px);
-  font-size: 18px;
-  touch-action: none;
+  font-size: 22px;
+  background: rgba(17,28,39,.57);
 }
-
 #forward { grid-column: 2; grid-row: 1; }
 #left { grid-column: 1; grid-row: 2; }
 #back { grid-column: 2; grid-row: 2; }
 #right { grid-column: 3; grid-row: 2; }
-
-#action-buttons {
-  position: absolute;
-  right: 12px;
-  bottom: calc(112px + env(safe-area-inset-bottom));
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  pointer-events: auto;
-}
-
-.action {
-  min-width: 95px;
-  border: 1px solid #ffffff2b;
-  border-radius: 13px;
-  background: #101c2bd9;
-  padding: 12px 10px;
-  font-size: 11px;
-  font-weight: 800;
-  text-align: center;
-}
-
-.action.active {
-  border-color: var(--green);
-  color: var(--green);
-  background: #183b35e8;
-}
-
-#hotbar {
-  position: absolute;
-  bottom: max(13px, env(safe-area-inset-bottom));
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  max-width: 98vw;
-  padding: 7px;
-  border-radius: 18px;
-  pointer-events: auto;
-}
-
-.slot {
-  position: relative;
-  width: clamp(43px, 11vw, 52px);
-  height: 52px;
-  border: 1px solid #ffffff23;
-  border-radius: 11px;
-  background: #ffffff0b;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 2px;
-  padding: 2px;
-}
-
-.slot.selected {
-  background: #7cf0b92b;
-  border: 2px solid var(--green);
-  transform: translateY(-3px);
-}
-
-.block-icon {
-  width: 24px;
-  height: 24px;
-  border: 1px solid #ffffff3b;
-  border-radius: 5px;
-  box-shadow: inset -4px -4px #0002, inset 2px 2px #ffffff18;
-}
-
-.block-label {
-  font-size: 8px;
-  color: #e5edf4;
-}
-
-#inventory-button {
-  width: 45px;
-  height: 52px;
-  flex-shrink: 0;
-  border: 1px solid #ffffff30;
-  border-radius: 12px;
-  background: #ffffff10;
-  font-size: 19px;
-}
-
-/* INVENTAIRE */
-
-#inventory {
+#actions {
   position: fixed;
-  z-index: 12;
+  right: 15px;
+  bottom: 110px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.action {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  font-size: 23px;
+  background: rgba(17,28,39,.68);
+}
+.action small {
+  display: block;
+  font-size: 9px;
+}
+#jump {
+  position: fixed;
+  right: 25px;
+  bottom: 255px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  font-size: 22px;
+}
+
+.overlay {
+  position: fixed;
   inset: 0;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 18px;
-  background: #07111b9c;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  padding: 20px;
+  background: rgba(5,12,20,.48);
+  backdrop-filter: blur(13px);
+  -webkit-backdrop-filter: blur(13px);
 }
-
-.inventory-card {
-  width: min(100%, 390px);
+.panel {
+  width: min(440px, 100%);
   max-height: 85dvh;
   overflow-y: auto;
-  padding: 20px;
-  border-radius: 24px;
+  padding: 25px;
+  text-align: center;
 }
-
-.inventory-head {
+.logo {
+  font-size: clamp(35px, 9vw, 55px);
+  line-height: 1.05;
+  font-weight: 950;
+  letter-spacing: -2px;
+  margin: 10px 0;
+}
+.logo span { color: var(--accent); }
+.subtitle {
+  color: #bacbd7;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.primary {
+  width: 100%;
+  padding: 15px;
+  margin-top: 12px;
+  font-weight: 800;
+  color: #10251f;
+  border: 0;
+  background: linear-gradient(120deg,#8df5ce,#8ed9ff);
+}
+.secondary {
+  width: 100%;
+  padding: 13px;
+  margin-top: 9px;
+}
+.feature-row {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
+  gap: 8px;
+  margin: 20px 0;
+}
+.feature {
+  flex: 1;
+  padding: 12px 5px;
+  background: rgba(255,255,255,.06);
+  border-radius: 14px;
+  font-size: 11px;
+  color: #d5e5ee;
+}
+.feature b {
+  display: block;
+  font-size: 20px;
   margin-bottom: 6px;
 }
-
-.inventory-head h2 {
-  margin: 0;
-  font-size: 22px;
-  letter-spacing: -.7px;
-}
-
-.close {
-  width: 36px;
-  height: 36px;
-  border-radius: 11px;
-  border: 1px solid var(--line);
-  background: var(--glass-light);
-  font-size: 20px;
-}
-
-.inventory-subtitle {
-  color: var(--muted);
-  font-size: 12px;
-  margin: 7px 0 19px;
-}
-
-#block-grid {
+#inventoryGrid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 9px;
+  margin-top: 20px;
 }
-
-.block-card {
-  min-width: 0;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: #ffffff08;
-  padding: 12px 5px;
+.inventoryItem {
+  min-height: 85px;
   display: flex;
-  align-items: center;
   flex-direction: column;
-  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.inventoryItem .emoji { font-size: 28px; }
+.inventoryItem small { font-size: 11px; }
+.inventoryItem.selected {
+  border: 2px solid var(--accent);
+  background: rgba(141,245,206,.15);
+}
+.panel h2 { margin-top: 0; }
+.note {
   font-size: 11px;
-}
-
-.block-card.chosen {
-  border-color: var(--green);
-  background: #66e6a91b;
-}
-
-.block-swatch {
-  width: 34px;
-  height: 34px;
-  border: 1px solid #ffffff30;
-  border-radius: 7px;
-  box-shadow: inset -6px -6px #0002, inset 3px 3px #ffffff18;
-}
-
-.unlimited {
-  color: var(--green);
-  font-size: 10px;
-}
-
-.inventory-use {
+  color: #9eb2c0;
+  line-height: 1.5;
   margin-top: 17px;
 }
-
-/* PETITS ÉCRANS */
-
-@media (max-height: 500px) {
-  .home-card { padding: 16px; }
-  .brand-icon { width: 54px; height: 54px; font-size: 28px; margin-bottom: 8px; }
-  .world-preview { height: 65px; margin-bottom: 10px; }
-  .subtitle { margin: 5px 0 12px; }
-  #movement { bottom: 70px; }
-  #action-buttons { bottom: 75px; }
-  #hotbar { bottom: 4px; }
-  .slot { height: 44px; }
-}
-
-@media (min-width: 700px) {
-  #movement { left: 24px; }
-  #action-buttons { right: 24px; }
+@media (max-height: 650px) {
+  #controls { bottom: 83px; transform: scale(.85); transform-origin: bottom left; }
+  #actions { bottom: 87px; transform: scale(.85); transform-origin: bottom right; }
+  #jump { bottom: 215px; }
+  .slot { height: 46px; }
+  #hotbar { bottom: 8px; }
 }
 </style>
 </head>
@@ -493,83 +310,90 @@ button {
 <body>
 <div id="game"></div>
 
-<!-- ACCUEIL -->
-<section id="home">
-  <div class="home-card glass">
-    <div class="brand-icon">🧊</div>
-    <h1 class="brand">BLOCK<span>WORLD</span></h1>
-    <p class="subtitle">
-      TON MONDE. TES RÈGLES.<br>
-      Un univers de blocs à construire.
-    </p>
+<div id="topbar" class="glass hidden">
+  <div class="brand">BLOCK<span>WORLD</span></div>
+  <div class="pill">✦ MODE CRÉATIF</div>
+  <button id="pauseBtn" aria-label="Pause">Ⅱ</button>
+</div>
 
-    <div class="world-preview">
-      <div class="preview-blocks">
-        <span></span><span></span><span></span>
-        <span></span><span></span>
-      </div>
+<div id="status" class="hidden">Bienvenue dans ton monde</div>
+<div id="crosshair" class="hidden"></div>
+
+<div id="controls" class="hidden">
+  <button class="move" id="forward">▲</button>
+  <button class="move" id="left">◀</button>
+  <button class="move" id="back">▼</button>
+  <button class="move" id="right">▶</button>
+</div>
+
+<button id="jump" class="hidden" aria-label="Monter">⬆</button>
+
+<div id="actions" class="hidden">
+  <button class="action" id="breakBtn">⛏<small>CASSER</small></button>
+  <button class="action" id="placeBtn">▣<small>POSER</small></button>
+</div>
+
+<div id="hotbar" class="hidden">
+  <button class="slot selected" data-type="grass">
+    <span class="emoji">🟩</span><small>Herbe</small>
+  </button>
+  <button class="slot" data-type="dirt">
+    <span class="emoji">🟫</span><small>Terre</small>
+  </button>
+  <button class="slot" data-type="stone">
+    <span class="emoji">⬜</span><small>Pierre</small>
+  </button>
+  <button class="slot" data-type="wood">
+    <span class="emoji">🪵</span><small>Bois</small>
+  </button>
+  <button class="slot" data-type="leaves">
+    <span class="emoji">🌿</span><small>Feuilles</small>
+  </button>
+  <button id="inventoryBtn" aria-label="Inventaire">▦</button>
+</div>
+
+<!-- MENU D'ACCUEIL -->
+<div class="overlay" id="home">
+  <div class="panel glass">
+    <div style="font-size:45px">🌄</div>
+    <div class="logo">BLOCK<span>WORLD</span></div>
+    <div class="subtitle">
+      Ton monde. Tes règles.<br>
+      Construis sans limites.
     </div>
-
-    <button id="play" class="primary">▶ &nbsp; JOUER</button>
-    <button id="home-inventory" class="secondary">
-      ▦ &nbsp; EXPLORER LES BLOCS
-    </button>
-
-    <p class="home-note">
-      V2 · MODE CRÉATIF · ÉDITION MOBILE
-    </p>
-  </div>
-</section>
-
-<!-- INTERFACE DU JEU -->
-<div id="hud" class="hidden">
-  <div id="topbar">
-    <div class="mini-brand">BLOCK<span>WORLD</span></div>
-    <div class="pill glass">🌿 <span>CRÉATIF</span></div>
-    <button id="pause" class="hud-button">Ⅱ</button>
-  </div>
-
-  <div id="status" class="glass">Monde créatif · Ressources illimitées</div>
-  <div id="crosshair">+</div>
-
-  <div id="movement">
-    <button class="move" id="forward">▲</button>
-    <button class="move" id="left">◀</button>
-    <button class="move" id="back">▼</button>
-    <button class="move" id="right">▶</button>
-  </div>
-
-  <div id="action-buttons">
-    <button id="break" class="action active">⛏ CASSER</button>
-    <button id="place" class="action">▧ POSER</button>
-    <button id="up" class="action">⬆ MONTER</button>
-    <button id="down" class="action">⬇ DESCENDRE</button>
-  </div>
-
-  <div id="hotbar" class="glass">
-    <div id="hotbar-slots" style="display:flex;gap:5px"></div>
-    <button id="inventory-button" aria-label="Ouvrir l'inventaire">▦</button>
+    <div class="feature-row">
+      <div class="feature"><b>🌍</b>Monde 3D</div>
+      <div class="feature"><b>🧱</b>Créativité</div>
+      <div class="feature"><b>💾</b>Sauvegarde</div>
+    </div>
+    <button class="primary" id="playBtn">▶ JOUER</button>
+    <button class="secondary" id="homeInventoryBtn">▦ Inventaire des blocs</button>
+    <div class="note">LIQUID GLASS EDITION · V3<br>Créé pour explorer et construire.</div>
   </div>
 </div>
 
 <!-- INVENTAIRE -->
-<section id="inventory" class="hidden">
-  <div class="inventory-card glass">
-    <div class="inventory-head">
-      <h2>Inventaire</h2>
-      <button id="close-inventory" class="close">×</button>
-    </div>
-    <p class="inventory-subtitle">
-      Choisis un matériau pour construire ton monde.
-    </p>
-
-    <div id="block-grid"></div>
-
-    <div class="inventory-use">
-      <button id="use-block" class="primary">SÉLECTIONNER CE BLOC</button>
-    </div>
+<div class="overlay hidden" id="inventory">
+  <div class="panel glass">
+    <h2>▦ Inventaire</h2>
+    <div class="subtitle">Choisis le bloc à utiliser.</div>
+    <div id="inventoryGrid"></div>
+    <button class="primary" id="closeInventory">CONFIRMER</button>
   </div>
-</section>
+</div>
+
+<!-- PAUSE -->
+<div class="overlay hidden" id="pause">
+  <div class="panel glass">
+    <div style="font-size:38px">Ⅱ</div>
+    <h2>Partie en pause</h2>
+    <div class="subtitle">Ton monde reste prêt à être exploré.</div>
+    <button class="primary" id="resumeBtn">REPRENDRE</button>
+    <button class="secondary" id="saveBtn">💾 Sauvegarder maintenant</button>
+    <button class="secondary" id="homeBtn">Retour au menu</button>
+    <div class="note">La sauvegarde reste sur ce navigateur.</div>
+  </div>
+</div>
 
 <script type="importmap">
 {
@@ -582,114 +406,100 @@ button {
 <script type="module">
 import * as THREE from "three";
 
-/* CONFIGURATION */
-
+/* ---------- CONFIGURATION ---------- */
 const $ = id => document.getElementById(id);
-const root = $("game");
-
+const SAVE_KEY = "blockworld-v3-world";
 const blockInfo = {
-  grass:  { label: "Herbe", color: "#62b94e" },
-  dirt:   { label: "Terre", color: "#95603c" },
-  stone:  { label: "Pierre", color: "#89949f" },
-  wood:   { label: "Bois", color: "#a97642" },
-  leaves: { label: "Feuilles", color: "#34874a" },
-  sand:   { label: "Sable", color: "#e4cf88" },
-  brick:  { label: "Briques", color: "#b65f52" },
-  glass:  { label: "Verre", color: "#a8e6f3" },
-  gold:   { label: "Or", color: "#f4c84e" }
+  grass:  { color: 0x64b95b, name: "Herbe", emoji: "🟩" },
+  dirt:   { color: 0x95613f, name: "Terre", emoji: "🟫" },
+  stone:  { color: 0x929ba4, name: "Pierre", emoji: "⬜" },
+  wood:   { color: 0x95633d, name: "Bois", emoji: "🪵" },
+  leaves: { color: 0x31894c, name: "Feuilles", emoji: "🌿" },
+  sand:   { color: 0xe1cd8c, name: "Sable", emoji: "🟨" }
 };
 
-const blockTypes = Object.keys(blockInfo);
-let selected = "grass";
-let mode = "break";
-let started = false;
-
-/* MOTEUR 3D */
+let selectedType = "grass";
+let playing = false;
+let yaw = 0;
+let pitch = -0.15;
+let isLooking = false;
+let lastPointerX = 0;
+let lastPointerY = 0;
+const movement = { forward: false, back: false, left: false, right: false };
+const blocks = new Map();
+const blockGeometry = new THREE.BoxGeometry(1, 1, 1);
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color("#92d1ef");
-scene.fog = new THREE.Fog("#92d1ef", 26, 75);
+scene.background = new THREE.Color(0x91c9ed);
+scene.fog = new THREE.Fog(0x91c9ed, 24, 65);
 
 const camera = new THREE.PerspectiveCamera(
-  72, innerWidth / innerHeight, 0.1, 300
+  75, window.innerWidth / window.innerHeight, 0.1, 120
 );
-camera.position.set(0, 3, 7);
+camera.position.set(0, 3.5, 7);
 
 const renderer = new THREE.WebGLRenderer({
   antialias: false,
   powerPreference: "high-performance"
 });
-renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
-renderer.setSize(innerWidth, innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
-root.appendChild(renderer.domElement);
+$("game").appendChild(renderer.domElement);
 
-scene.add(new THREE.HemisphereLight(0xffffff, 0x60734d, 2));
+scene.add(new THREE.HemisphereLight(0xffffff, 0x52604b, 2));
 
-const sunlight = new THREE.DirectionalLight(0xffffff, 2);
-sunlight.position.set(12, 24, 8);
-scene.add(sunlight);
+const sun = new THREE.DirectionalLight(0xffffff, 2);
+sun.position.set(-8, 18, 10);
+scene.add(sun);
 
-const cube = new THREE.BoxGeometry(1, 1, 1);
-const materials = {};
+const raycaster = new THREE.Raycaster();
+raycaster.far = 7;
 
-for (const type of blockTypes) {
-  materials[type] = new THREE.MeshLambertMaterial({
-    color: blockInfo[type].color
-  });
+function key(x, y, z) {
+  return `${x},${y},${z}`;
 }
 
-materials.glass = new THREE.MeshLambertMaterial({
-  color: blockInfo.glass.color,
-  transparent: true,
-  opacity: 0.48,
-  depthWrite: false
-});
+function addBlock(x, y, z, type) {
+  if (!blockInfo[type]) return null;
+  const id = key(x, y, z);
+  if (blocks.has(id)) return null;
 
-const blocks = new Map();
-const blockKey = (x, y, z) => `${x},${y},${z}`;
-
-function addBlock(x, y, z, type = "grass") {
-  const id = blockKey(x, y, z);
-  if (blocks.has(id)) return false;
-
-  const mesh = new THREE.Mesh(cube, materials[type] || materials.grass);
+  const material = new THREE.MeshLambertMaterial({
+    color: blockInfo[type].color
+  });
+  const mesh = new THREE.Mesh(blockGeometry, material);
   mesh.position.set(x, y, z);
   mesh.userData = { x, y, z, type };
-
   scene.add(mesh);
   blocks.set(id, mesh);
-  return true;
+  return mesh;
 }
 
 function removeBlock(mesh) {
-  const { x, y, z } = mesh.userData;
+  if (!mesh) return;
+  const d = mesh.userData;
   scene.remove(mesh);
-  blocks.delete(blockKey(x, y, z));
+  mesh.material.dispose();
+  blocks.delete(key(d.x, d.y, d.z));
 }
 
-/* MONDE DE DÉPART */
-
 function terrainHeight(x, z) {
-  return Math.round(
-    Math.sin(x * 0.36) * 1.25 +
-    Math.cos(z * 0.31) * 0.9 +
-    Math.sin((x + z) * 0.18) * 0.6
+  return Math.floor(
+    1 + Math.sin(x * 0.35) * 0.7 + Math.cos(z * 0.31) * 0.5
   );
 }
 
 function makeTree(x, z) {
-  const h = terrainHeight(x, z);
-
-  for (let y = 1; y <= 3; y++) {
-    addBlock(x, h + y, z, "wood");
+  const ground = terrainHeight(x, z);
+  for (let y = ground + 1; y <= ground + 3; y++) {
+    addBlock(x, y, z, "wood");
   }
-
-  for (let dx = -2; dx <= 2; dx++) {
-    for (let dz = -2; dz <= 2; dz++) {
+  for (let dx = -1; dx <= 1; dx++) {
+    for (let dz = -1; dz <= 1; dz++) {
       for (let dy = 2; dy <= 4; dy++) {
-        if (Math.abs(dx) + Math.abs(dz) <= 3) {
-          addBlock(x + dx, h + dy, z + dz, "leaves");
+        if (Math.abs(dx) + Math.abs(dz) < 3) {
+          addBlock(x + dx, ground + dy, z + dz, "leaves");
         }
       }
     }
@@ -697,380 +507,345 @@ function makeTree(x, z) {
 }
 
 function generateWorld() {
-  if (blocks.size) return;
-
-  for (let x = -12; x <= 12; x++) {
-    for (let z = -12; z <= 12; z++) {
+  for (let x = -9; x <= 9; x++) {
+    for (let z = -9; z <= 9; z++) {
       const h = terrainHeight(x, z);
-
       for (let y = -2; y <= h; y++) {
-        let type = "stone";
-
-        if (y === h) type = "grass";
-        else if (y >= h - 1) type = "dirt";
-
+        const type = y === h ? "grass" : (y >= h - 1 ? "dirt" : "stone");
         addBlock(x, y, z, type);
       }
     }
   }
 
-  makeTree(-6, -4);
-  makeTree(6, -5);
-  makeTree(5, 6);
-  makeTree(-7, 6);
+  makeTree(-5, -4);
+  makeTree(5, -3);
+  makeTree(4, 6);
+  makeTree(-6, 5);
 
-  for (let x = -2; x <= 2; x++) {
-    for (let z = -2; z <= 2; z++) {
-      if (Math.abs(x) === 2 || Math.abs(z) === 2) {
-        addBlock(x, 3, z, "brick");
+  // Petit lac décoratif au bord du terrain
+  const water = new THREE.Mesh(
+    new THREE.PlaneGeometry(5, 4),
+    new THREE.MeshLambertMaterial({
+      color: 0x42a9dd,
+      transparent: true,
+      opacity: 0.75
+    })
+  );
+  water.rotation.x = -Math.PI / 2;
+  water.position.set(8, 0.05, 7);
+  scene.add(water);
+}
+
+/* ---------- SAUVEGARDE ---------- */
+function saveWorld() {
+  try {
+    const data = Array.from(blocks.values()).map(mesh => ({
+      x: mesh.userData.x,
+      y: mesh.userData.y,
+      z: mesh.userData.z,
+      type: mesh.userData.type
+    }));
+
+    localStorage.setItem(SAVE_KEY, JSON.stringify(data));
+    $("status").textContent = "💾 Monde sauvegardé";
+    return true;
+  } catch (error) {
+    console.error("Sauvegarde impossible", error);
+    $("status").textContent = "Sauvegarde indisponible sur ce navigateur";
+    return false;
+  }
+}
+
+function loadWorldOrGenerate() {
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (raw) {
+      const data = JSON.parse(raw);
+      if (Array.isArray(data) && data.length > 0 && data.length < 10000) {
+        const valid = data.filter(b =>
+          b &&
+          Number.isFinite(b.x) &&
+          Number.isFinite(b.y) &&
+          Number.isFinite(b.z) &&
+          Math.abs(b.x) < 1000 &&
+          Math.abs(b.y) < 1000 &&
+          Math.abs(b.z) < 1000 &&
+          blockInfo[b.type]
+        );
+
+        if (valid.length > 0) {
+          valid.forEach(b => addBlock(b.x, b.y, b.z, b.type));
+          $("status").textContent = "💾 Ton monde a été chargé";
+          return;
+        }
       }
     }
+  } catch (error) {
+    console.warn("Chargement de la sauvegarde impossible", error);
   }
+
+  generateWorld();
 }
 
-generateWorld();
+/* Le monde est chargé une seule fois au démarrage. */
+loadWorldOrGenerate();
 
-/* CAMERA ET COMMANDES */
-
-let yaw = 0;
-let pitch = -0.15;
-
-function updateCamera() {
-  camera.rotation.order = "YXZ";
-  camera.rotation.y = yaw;
-  camera.rotation.x = pitch;
+/* ---------- COMMANDES ---------- */
+function getTarget() {
+  raycaster.setFromCamera(new THREE.Vector2(0, 0), camera);
+  const hits = raycaster.intersectObjects(Array.from(blocks.values()), false);
+  return hits.length ? hits[0] : null;
 }
 
-updateCamera();
-
-const moving = {
-  forward: false,
-  back: false,
-  left: false,
-  right: false
-};
-
-for (const name of Object.keys(moving)) {
-  const button = $(name);
-
-  button.addEventListener("pointerdown", e => {
-    e.preventDefault();
-    moving[name] = true;
-
-    try {
-      button.setPointerCapture(e.pointerId);
-    } catch {}
-  });
-
-  for (const event of [
-    "pointerup", "pointercancel", "lostpointercapture"
-  ]) {
-    button.addEventListener(event, () => {
-      moving[name] = false;
-    });
-  }
-}
-
-let vertical = 0;
-
-function setVertical(value) {
-  vertical = value;
-}
-
-for (const [id, value] of [["up", 1], ["down", -1]]) {
-  const button = $(id);
-
-  button.addEventListener("pointerdown", e => {
-    e.preventDefault();
-    setVertical(value);
-
-    try {
-      button.setPointerCapture(e.pointerId);
-    } catch {}
-  });
-
-  for (const event of [
-    "pointerup", "pointercancel", "lostpointercapture"
-  ]) {
-    button.addEventListener(event, () => setVertical(0));
-  }
-}
-
-/* ACTIONS SUR LES BLOCS */
-
-const raycaster = new THREE.Raycaster();
-const center = new THREE.Vector2(0, 0);
-
-function interact() {
-  raycaster.setFromCamera(center, camera);
-
-  const hits = raycaster.intersectObjects(
-    Array.from(blocks.values()), false
-  );
-
-  if (!hits.length || hits[0].distance > 8) {
-    $("status").textContent = "Vise un bloc à proximité";
+function breakBlock() {
+  if (!playing) return;
+  const hit = getTarget();
+  if (!hit) {
+    $("status").textContent = "Vise un bloc pour le casser";
     return;
   }
 
-  const hit = hits[0];
-  const mesh = hit.object;
+  removeBlock(hit.object);
+  saveWorld();
+}
 
-  if (mode === "break") {
-    removeBlock(mesh);
-    $("status").textContent = "Bloc cassé · Mode créatif";
+function placeBlock() {
+  if (!playing) return;
+  const hit = getTarget();
+  if (!hit || !hit.face) {
+    $("status").textContent = "Vise une face pour poser un bloc";
     return;
   }
-
-  if (!hit.face) return;
 
   const normal = hit.face.normal.clone()
-    .transformDirection(mesh.matrixWorld);
+    .transformDirection(hit.object.matrixWorld);
+  const p = hit.object.position.clone().add(normal);
+  const x = Math.round(p.x);
+  const y = Math.round(p.y);
+  const z = Math.round(p.z);
 
-  const position = mesh.position.clone().add(normal);
-  const x = Math.round(position.x);
-  const y = Math.round(position.y);
-  const z = Math.round(position.z);
-
-  const dx = x - camera.position.x;
-  const dy = y - camera.position.y;
-  const dz = z - camera.position.z;
-
-  if (
-    Math.abs(dx) < 0.8 &&
-    Math.abs(dz) < 0.8 &&
-    Math.abs(dy) < 1.8
-  ) {
-    $("status").textContent = "Impossible de poser ici";
+  // Empêche de placer un bloc dans la caméra.
+  const distance = camera.position.distanceTo(new THREE.Vector3(x, y, z));
+  if (distance < 1.4) {
+    $("status").textContent = "Trop près de toi pour poser ce bloc";
     return;
   }
 
-  if (addBlock(x, y, z, selected)) {
-    $("status").textContent =
-      blockInfo[selected].label + " posé";
+  if (addBlock(x, y, z, selectedType)) {
+    saveWorld();
+  } else {
+    $("status").textContent = "Cette case est déjà occupée";
   }
-}
-
-$("break").addEventListener("click", () => setMode("break"));
-$("place").addEventListener("click", () => setMode("place"));
-
-function setMode(value) {
-  mode = value;
-  $("break").classList.toggle("active", mode === "break");
-  $("place").classList.toggle("active", mode === "place");
-}
-
-/* REGARD TACTILE */
-
-let dragging = false;
-let moved = false;
-let startX = 0;
-let startY = 0;
-let lastX = 0;
-let lastY = 0;
-
-renderer.domElement.addEventListener("pointerdown", e => {
-  if (!started) return;
-
-  dragging = true;
-  moved = false;
-  startX = lastX = e.clientX;
-  startY = lastY = e.clientY;
-
-  try {
-    renderer.domElement.setPointerCapture(e.pointerId);
-  } catch {}
-});
-
-renderer.domElement.addEventListener("pointermove", e => {
-  if (!dragging) return;
-
-  const dx = e.clientX - lastX;
-  const dy = e.clientY - lastY;
-
-  if (Math.hypot(
-    e.clientX - startX,
-    e.clientY - startY
-  ) > 7) moved = true;
-
-  yaw -= dx * 0.006;
-  pitch = THREE.MathUtils.clamp(
-    pitch - dy * 0.006, -1.45, 1.45
-  );
-
-  lastX = e.clientX;
-  lastY = e.clientY;
-  updateCamera();
-});
-
-renderer.domElement.addEventListener("pointerup", () => {
-  if (dragging && !moved && started) interact();
-  dragging = false;
-});
-
-renderer.domElement.addEventListener("pointercancel", () => {
-  dragging = false;
-});
-
-/* INVENTAIRE ET BARRE RAPIDE */
-
-const hotbarTypes = [
-  "grass", "dirt", "stone", "wood", "leaves"
-];
-
-function makeSwatch(type) {
-  const swatch = document.createElement("span");
-  swatch.className = "block-swatch";
-  swatch.style.background = blockInfo[type].color;
-  return swatch;
 }
 
 function selectBlock(type) {
-  selected = type;
-  renderHotbar();
-  renderInventory();
-}
+  if (!blockInfo[type]) return;
+  selectedType = type;
 
-function renderHotbar() {
-  const container = $("hotbar-slots");
-  container.replaceChildren();
+  document.querySelectorAll(".slot").forEach(slot => {
+    slot.classList.toggle("selected", slot.dataset.type === type);
+  });
 
-  hotbarTypes.forEach(type => {
-    const button = document.createElement("button");
-    button.className = "slot" +
-      (selected === type ? " selected" : "");
-    button.setAttribute("aria-label", blockInfo[type].label);
-
-    button.appendChild(makeSwatch(type));
-
-    const label = document.createElement("span");
-    label.className = "block-label";
-    label.textContent = blockInfo[type].label;
-    button.appendChild(label);
-
-    button.addEventListener("click", () => selectBlock(type));
-    container.appendChild(button);
+  document.querySelectorAll(".inventoryItem").forEach(item => {
+    item.classList.toggle("selected", item.dataset.type === type);
   });
 }
 
-function renderInventory() {
-  const grid = $("block-grid");
-  grid.replaceChildren();
+/* ---------- INVENTAIRE ---------- */
+function buildInventory() {
+  const grid = $("inventoryGrid");
+  grid.innerHTML = "";
 
-  blockTypes.forEach(type => {
+  Object.entries(blockInfo).forEach(([type, info]) => {
     const button = document.createElement("button");
-    button.className = "block-card" +
-      (selected === type ? " chosen" : "");
-
-    button.appendChild(makeSwatch(type));
-
-    const name = document.createElement("span");
-    name.textContent = blockInfo[type].label;
-    button.appendChild(name);
-
-    const unlimited = document.createElement("span");
-    unlimited.className = "unlimited";
-    unlimited.textContent = "∞ Illimité";
-    button.appendChild(unlimited);
+    button.className = "inventoryItem";
+    button.dataset.type = type;
+    button.innerHTML =
+      `<span class="emoji">${info.emoji}</span><small>${info.name}</small>`;
 
     button.addEventListener("click", () => selectBlock(type));
     grid.appendChild(button);
   });
 }
+buildInventory();
 
-function openInventory() {
-  $("inventory").classList.remove("hidden");
-  renderInventory();
+/* ---------- MENU ---------- */
+function showGameUI(show) {
+  ["topbar", "status", "crosshair", "controls",
+   "actions", "hotbar", "jump"].forEach(id => {
+    $(id).classList.toggle("hidden", !show);
+  });
 }
-
-function closeInventory() {
-  $("inventory").classList.add("hidden");
-}
-
-$("inventory-button").addEventListener("click", openInventory);
-$("home-inventory").addEventListener("click", openInventory);
-$("close-inventory").addEventListener("click", closeInventory);
-
-$("use-block").addEventListener("click", () => {
-  closeInventory();
-  if (!started) startGame();
-});
-
-renderHotbar();
-renderInventory();
-
-/* MENU ET PAUSE */
 
 function startGame() {
-  started = true;
+  playing = true;
   $("home").classList.add("hidden");
+  $("pause").classList.add("hidden");
   $("inventory").classList.add("hidden");
-  $("hud").classList.remove("hidden");
-  $("status").textContent = "Bienvenue dans ton monde !";
+  showGameUI(true);
+  $("status").textContent = "Explore et construis !";
 }
 
-function showHome() {
-  started = false;
-  $("hud").classList.add("hidden");
-  $("inventory").classList.add("hidden");
+function pauseGame() {
+  if (!playing) return;
+  playing = false;
+  clearMovement();
+  $("pause").classList.remove("hidden");
+}
+
+function clearMovement() {
+  Object.keys(movement).forEach(k => movement[k] = false);
+}
+
+$("playBtn").addEventListener("click", startGame);
+$("pauseBtn").addEventListener("click", pauseGame);
+$("resumeBtn").addEventListener("click", startGame);
+
+$("saveBtn").addEventListener("click", () => {
+  saveWorld();
+});
+
+$("homeBtn").addEventListener("click", () => {
+  playing = false;
+  clearMovement();
+  $("pause").classList.add("hidden");
   $("home").classList.remove("hidden");
+  showGameUI(false);
+});
 
-  for (const name of Object.keys(moving)) moving[name] = false;
-  vertical = 0;
+$("inventoryBtn").addEventListener("click", () => {
+  if (playing) {
+    playing = false;
+    $("inventory").classList.remove("hidden");
+  }
+});
+
+$("homeInventoryBtn").addEventListener("click", () => {
+  $("inventory").classList.remove("hidden");
+});
+
+$("closeInventory").addEventListener("click", () => {
+  $("inventory").classList.add("hidden");
+  if ($("home").classList.contains("hidden") &&
+      $("pause").classList.contains("hidden")) {
+    playing = true;
+  }
+});
+
+document.querySelectorAll(".slot").forEach(slot => {
+  slot.addEventListener("click", () => {
+    selectBlock(slot.dataset.type);
+  });
+});
+
+$("breakBtn").addEventListener("click", breakBlock);
+$("placeBtn").addEventListener("click", placeBlock);
+
+/* ---------- TOUCH ET DÉPLACEMENT ---------- */
+function bindMove(id, direction) {
+  const button = $(id);
+  const down = event => {
+    event.preventDefault();
+    movement[direction] = true;
+  };
+  const up = event => {
+    event.preventDefault();
+    movement[direction] = false;
+  };
+  button.addEventListener("pointerdown", down);
+  button.addEventListener("pointerup", up);
+  button.addEventListener("pointercancel", up);
+  button.addEventListener("pointerleave", up);
 }
 
-$("play").addEventListener("click", startGame);
-$("pause").addEventListener("click", showHome);
+bindMove("forward", "forward");
+bindMove("back", "back");
+bindMove("left", "left");
+bindMove("right", "right");
 
-/* BOUCLE DE RENDU */
+$("jump").addEventListener("pointerdown", event => {
+  event.preventDefault();
+  if (playing) camera.position.y += 1;
+});
 
-let previous = performance.now();
+renderer.domElement.addEventListener("pointerdown", event => {
+  if (!playing) return;
+  isLooking = true;
+  lastPointerX = event.clientX;
+  lastPointerY = event.clientY;
+});
 
-function animate(now) {
+window.addEventListener("pointerup", () => {
+  isLooking = false;
+});
+
+window.addEventListener("pointermove", event => {
+  if (!isLooking || !playing) return;
+
+  const dx = event.clientX - lastPointerX;
+  const dy = event.clientY - lastPointerY;
+  lastPointerX = event.clientX;
+  lastPointerY = event.clientY;
+
+  yaw -= dx * 0.004;
+  pitch -= dy * 0.004;
+  pitch = Math.max(-1.35, Math.min(1.35, pitch));
+});
+
+/* ---------- CLAVIER SI DISPONIBLE ---------- */
+window.addEventListener("keydown", event => {
+  if (event.key === "Escape") {
+    if (playing) pauseGame();
+    return;
+  }
+
+  if (event.key === "w" || event.key === "ArrowUp") movement.forward = true;
+  if (event.key === "s" || event.key === "ArrowDown") movement.back = true;
+  if (event.key === "a" || event.key === "ArrowLeft") movement.left = true;
+  if (event.key === "d" || event.key === "ArrowRight") movement.right = true;
+  if (event.key === " ") camera.position.y += 1;
+});
+
+window.addEventListener("keyup", event => {
+  if (event.key === "w" || event.key === "ArrowUp") movement.forward = false;
+  if (event.key === "s" || event.key === "ArrowDown") movement.back = false;
+  if (event.key === "a" || event.key === "ArrowLeft") movement.left = false;
+  if (event.key === "d" || event.key === "ArrowRight") movement.right = false;
+});
+
+/* ---------- BOUCLE 3D ---------- */
+const clock = new THREE.Clock();
+
+function animate() {
   requestAnimationFrame(animate);
 
-  const delta = Math.min((now - previous) / 1000, 0.05);
-  previous = now;
+  const delta = Math.min(clock.getDelta(), 0.05);
 
-  if (started) {
+  if (playing) {
     const speed = 5 * delta;
+    const forward = new THREE.Vector3(-Math.sin(yaw), 0, -Math.cos(yaw));
+    const right = new THREE.Vector3(Math.cos(yaw), 0, -Math.sin(yaw));
 
-    const forward = new THREE.Vector3(
-      -Math.sin(yaw), 0, -Math.cos(yaw)
-    );
+    if (movement.forward) camera.position.addScaledVector(forward, speed);
+    if (movement.back) camera.position.addScaledVector(forward, -speed);
+    if (movement.right) camera.position.addScaledVector(right, speed);
+    if (movement.left) camera.position.addScaledVector(right, -speed);
 
-    const right = new THREE.Vector3(
-      Math.cos(yaw), 0, -Math.sin(yaw)
-    );
-
-    if (moving.forward) camera.position.addScaledVector(forward, speed);
-    if (moving.back) camera.position.addScaledVector(forward, -speed);
-    if (moving.left) camera.position.addScaledVector(right, -speed);
-    if (moving.right) camera.position.addScaledVector(right, speed);
-
-    camera.position.y += vertical * speed;
-
-    camera.position.x = THREE.MathUtils.clamp(
-      camera.position.x, -30, 30
-    );
-    camera.position.z = THREE.MathUtils.clamp(
-      camera.position.z, -30, 30
-    );
-    camera.position.y = THREE.MathUtils.clamp(
-      camera.position.y, -1, 25
-    );
+    camera.rotation.order = "YXZ";
+    camera.rotation.y = yaw;
+    camera.rotation.x = pitch;
   }
 
   renderer.render(scene, camera);
 }
 
-requestAnimationFrame(animate);
-
 window.addEventListener("resize", () => {
-  camera.aspect = innerWidth / innerHeight;
+  camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
-  renderer.setSize(innerWidth, innerHeight);
+  renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
+animate();
 </script>
 </body>
 </html>
